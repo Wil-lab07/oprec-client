@@ -20,12 +20,13 @@ import axios from 'axios'
 import { motion } from 'framer-motion'
 import Swal from 'sweetalert2'
 
-export default function Home() { 
-  const { register, handleSubmit, errors } = useForm();
+export default function Home() {   
+  const { register, handleSubmit, formState:{errors} } = useForm()
+
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(undefined)
+  const [errorApi, setErrorApi] = useState(undefined)
   const [token, setToken] = useState(undefined)
-  
+
   const onSubmit = async (data)=>{
     setLoading(true)
     try{
@@ -62,11 +63,11 @@ export default function Home() {
 
       setLoading(false)
     }catch(err){
-      console.log(err)
-      console.log(err.response.data)
-      setError(err.response.data)
+      setErrorApi(err.response.data)
     }
   }
+
+  console.log(errors)
 
   return (
     <Flex
@@ -184,12 +185,12 @@ export default function Home() {
                   <FormLabel textColor={'black'} htmlFor='nim_mhs'>NIM</FormLabel>
                   <InputGroup>
                     <InputLeftAddon textColor={'white'} children='000000' bgColor={'gray.500'}/>
-                    <Input {...register('nim_mhs')} type={'number'} name='nim_mhs' placeholder='32456' _placeholder={{color: 'darkgray'}} bgColor={'gray.200'} textColor={'black'}/>
+                    <Input {...register('nim_mhs', {required: "NIM tidak boleh kosong"})} type={'number'} name='nim_mhs' placeholder='32456' _placeholder={{color: 'darkgray'}} bgColor={'gray.200'} textColor={'black'}/>
                   </InputGroup>
                 </Box>
                 <Box width={'100%'} mr={2} ml={2} mt={[2, 2, 0, 0]}>
                   <FormLabel textColor={'black'} htmlFor='name'>Nama Lengkap</FormLabel>
-                  <Input {...register('name')} type={'text'} name='name' placeholder='Agus Salim' _placeholder={{color: 'darkgray'}} bgColor={'gray.200'} textColor={'black'}/>
+                  <Input {...register('name', {required: "Nama tidak boleh kosong!"})} type={'text'} name='name' placeholder='Agus Salim' _placeholder={{color: 'darkgray'}} bgColor={'gray.200'} textColor={'black'}/>
                 </Box>
               </Flex>
               <Flex justifyContent={'space-between'} mt={2} flexDirection={['column', 'column', 'row', 'row']}>
