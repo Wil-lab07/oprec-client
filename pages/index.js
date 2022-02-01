@@ -63,11 +63,18 @@ export default function Home() {
 
       setLoading(false)
     }catch(err){
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: `${err.response.data}`
+      })
       setErrorApi(err.response.data)
     }
   }
 
-  console.log(errors)
+  if(errors.name !== undefined){
+    console.log(errors.name.message)
+  }
 
   return (
     <Flex
@@ -148,7 +155,7 @@ export default function Home() {
           <Text fontSize={['12px', '17px', '17px', '17px']} textColor={'black'} textAlign={'center'}>Silahkan screenshoot dan simpan token untuk melanjutkan sesi interview!</Text>
          </Flex>
         </Flex>
-        :
+        : 
         <Flex
           borderRadius={'12px 12px 12px 12px'} 
           height={'80vh'} 
@@ -185,56 +192,65 @@ export default function Home() {
                   <FormLabel textColor={'black'} htmlFor='nim_mhs'>NIM</FormLabel>
                   <InputGroup>
                     <InputLeftAddon textColor={'white'} children='000000' bgColor={'gray.500'}/>
-                    <Input {...register('nim_mhs', {required: "NIM tidak boleh kosong"})} type={'number'} name='nim_mhs' placeholder='32456' _placeholder={{color: 'darkgray'}} bgColor={'gray.200'} textColor={'black'}/>
+                    <Input {...register('nim_mhs', {required: "NIM harap diisi"})} type={'number'} name='nim_mhs' placeholder='32456' _placeholder={{color: 'darkgray'}} bgColor={'gray.200'} textColor={'black'}/>
                   </InputGroup>
+                  {errors.nim_mhs !== undefined && <Text textColor={'red'}>{errors.nim_mhs.message}</Text>}
                 </Box>
                 <Box width={'100%'} mr={2} ml={2} mt={[2, 2, 0, 0]}>
                   <FormLabel textColor={'black'} htmlFor='name'>Nama Lengkap</FormLabel>
-                  <Input {...register('name', {required: "Nama tidak boleh kosong!"})} type={'text'} name='name' placeholder='Agus Salim' _placeholder={{color: 'darkgray'}} bgColor={'gray.200'} textColor={'black'}/>
+                  <Input {...register('name', {required: "Nama harap diisi!"})} type={'text'} name='name' placeholder='Agus Salim' _placeholder={{color: 'darkgray'}} bgColor={'gray.200'} textColor={'black'}/>
+                  {errors.name !== undefined && <Text textColor={'red'}>{errors.name.message}</Text>}
                 </Box>
               </Flex>
               <Flex justifyContent={'space-between'} mt={2} flexDirection={['column', 'column', 'row', 'row']}>
                 <Box width={'100%'} mr={2} ml={2}>
                   <FormLabel textColor={'black'} htmlFor='email'>Email</FormLabel>
-                  <Input {...register('email', {required: true, pattern: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/})} type={'email'} name='email' placeholder='agus.salim@student.umn.ac.id' _placeholder={{color: 'darkgray'}} bgColor={'gray.200'} textColor={'black'}/>
+                  <Input {...register('email', {required: "Email harap diisi"})} type={'email'} name='email' placeholder='agus.salim@student.umn.ac.id' _placeholder={{color: 'darkgray'}} bgColor={'gray.200'} textColor={'black'}/>
+                  {errors.email !== undefined && <Text textColor={'red'}>{errors.email.message}</Text>}
                 </Box>
                 <Box width={'100%'} mr={2} ml={2} mt={[2, 2, 0, 0]}>
                   <FormLabel textColor={'black'} htmlFor='no_hp'>Nomor HP</FormLabel>
                   <InputGroup>
                     <InputLeftAddon textColor={'white'} children='+62' bgColor={'gray.500'}/>
-                    <Input {...register('no_hp')} type={'number'} name='no_hp' placeholder='847585947' _placeholder={{color: 'darkgray'}} bgColor={'gray.200'} textColor={'black'}/>
+                    <Input {...register('no_hp', {required: "NoHp harap diisi"})} type={'number'} name='no_hp' placeholder='847585947' _placeholder={{color: 'darkgray'}} bgColor={'gray.200'} textColor={'black'}/>
                   </InputGroup>
+                  {errors.no_hp !== undefined && <Text textColor={'red'}>{errors.no_hp.message}</Text>}
                 </Box>
               </Flex>
               <Flex justifyContent={'space-between'} mt={2} flexDirection={['column', 'column', 'row', 'row']}>
                 <Box width={'100%'} mr={2} ml={2}>
                   <FormLabel textColor={'black'} htmlFor='tempat_lahir'>Tempat Lahir</FormLabel>
-                  <Input {...register('tempat_lahir')} type={'text'} name='tempat_lahir' placeholder='Pontianak' _placeholder={{color: 'darkgray'}} bgColor={'gray.200'} textColor={'black'}/>
+                  <Input {...register('tempat_lahir', {required: "Tempat lahir harap diisi"})} type={'text'} name='tempat_lahir' placeholder='Pontianak' _placeholder={{color: 'darkgray'}} bgColor={'gray.200'} textColor={'black'}/>
+                  {errors.tempat_lahir !== undefined && <Text textColor={'red'}>{errors.tempat_lahir.message}</Text>}
                 </Box>
                 <Box width={'100%'} mr={2} ml={2} mt={[2, 2, 0, 0]}>
                   <FormLabel textColor={'black'} htmlFor='tanggal_lahir'>Tanggal Lahir</FormLabel>
-                  <Input {...register('tanggal_lahir')} type={'date'} name='tanggal_lahir' placeholder='Pontianak' _placeholder={{color: 'darkgray'}} bgColor={'gray.200'} textColor={'black'}/>
+                  <Input {...register('tanggal_lahir', {required: "tanggal lahir harap diisi"})} type={'date'} name='tanggal_lahir' placeholder='Pontianak' _placeholder={{color: 'darkgray'}} bgColor={'gray.200'} textColor={'black'}/>
+                  {errors.tanggal_lahir !== undefined && <Text textColor={'red'}>{errors.tanggal_lahir.message}</Text>}  
                 </Box>
                 <Box width={'100%'} mr={2} ml={2} mt={[2, 2, 0, 0]}>
                   <FormLabel textColor={'black'} htmlFor='jenis_kelamin'>Jenis Kelamin</FormLabel>
-                  <Select name='jenis_kelamin' placeholder='Jenis Kelamin' _placeholder={{color: 'darkgray'}} bgColor={'gray.200'} textColor={'black'}>
+                  <Select name='jenis_kelamin' {...register('jenis_kelamin', {required: "Jenis kelamin harap dipilih"})} placeholder='Jenis Kelamin' _placeholder={{color: 'darkgray'}} bgColor={'gray.200'} textColor={'black'}>
                     <option value='Male'>L</option>
                     <option value='Female'>P</option>
                   </Select>
+                  {errors.jenis_kelamin !== undefined && <Text textColor={'red'}>{errors.jenis_kelamin.message}</Text>}
                 </Box>
               </Flex>
               <Flex justifyContent={'space-between'} mt={2} flexDirection={['column', 'column', 'row', 'row']}>
                 <Box width={'100%'} mr={2} ml={2}>
                   <FormLabel textColor={'black'} htmlFor='alamat'>Alamat</FormLabel>
-                  <Input {...register('alamat')} type={'text'} name='alamat' _placeholder={{color: 'darkgray'}} bgColor={'gray.200'} textColor={'black'}/>
+                  <Input {...register('alamat', {required: "alamat harap diisi"})} type={'text'} name='alamat' _placeholder={{color: 'darkgray'}} bgColor={'gray.200'} textColor={'black'}/>
+                  {errors.alamat !== undefined && <Text textColor={'red'}>{errors.alamat.message}</Text>}
                 </Box>
                 <Box width={'100%'} mr={2} ml={2} mt={[2, 2, 0, 0]}>
                   <FormLabel textColor={'black'} htmlFor='angkatan'>Angkatan</FormLabel>
-                  <Input {...register('angkatan')} type={'number'} name='angkatan' placeholder='2019' _placeholder={{color: 'darkgray'}} bgColor={'gray.200'} textColor={'black'}/>
+                  <Input {...register('angkatan', {required: "angkatan harap diisi"})} type={'number'} name='angkatan' placeholder='2019' _placeholder={{color: 'darkgray'}} bgColor={'gray.200'} textColor={'black'}/>
+                  {errors.angkatan !== undefined && <Text textColor={'red'}>{errors.angkatan.message}</Text>}
                 </Box>
                 <Box width={'100%'} mr={2} ml={2} mt={[2, 2, 0, 0]}>
                   <FormLabel textColor={'black'} htmlFor='prodi'>Prodi</FormLabel>
-                  <Select {...register('prodi')} name='prodi' placeholder='prodi' _placeholder={{color: 'darkgray'}} bgColor={'gray.200'} textColor={'black'}>
+                  <Select {...register('prodi', {required: "prodi harap diisi"})} name='prodi' placeholder='prodi' _placeholder={{color: 'darkgray'}} bgColor={'gray.200'} textColor={'black'}>
                     <option value='Informatika'>Informatika</option>
                     <option value='Sistem Informasi'>Sistem Informasi</option>
                     <option value='Sistem Komputer'>Sistem Komputer</option>
@@ -243,26 +259,31 @@ export default function Home() {
                     <option value='Ilkom'>Ilmu Komunikasi</option>
                     <option value='DKV'>DKV</option>
                   </Select>
+                  {errors.prodi !== undefined && <Text textColor={'red'}>{errors.prodi.message}</Text>}
                 </Box>
               </Flex>
               <Flex justifyContent={'space-between'} mt={2} flexDirection={['column', 'column', 'row', 'row']}>
                 <Box width={'100%'} mr={2} ml={2}>
                   <FormLabel textColor={'black'} htmlFor='ips'>Nilai Ips</FormLabel>
-                  <Input {...register('ips')} type={'number'} step={'any'} name='ips' _placeholder={{color: 'darkgray'}} bgColor={'gray.200'} textColor={'black'}/>
+                  <Input {...register('ips', {required: "nilai ip harap diisi"})} type={'number'} step={'any'} name='ips' _placeholder={{color: 'darkgray'}} bgColor={'gray.200'} textColor={'black'}/>
+                  {errors.ips !== undefined && <Text textColor={'red'}>{errors.ips.message}</Text>}
                 </Box>
                 <Box width={'100%'} mr={2} ml={2} mt={[2, 2, 0, 0]}>
                   <FormLabel textColor={'black'} htmlFor='line'>line</FormLabel>
-                  <Input {...register('line')} type={'text'} name='line' placeholder='agusline' _placeholder={{color: 'darkgray'}} bgColor={'gray.200'} textColor={'black'}/>
+                  <Input {...register('line', {required: "line harap diisi"})} type={'text'} name='line' placeholder='agusline' _placeholder={{color: 'darkgray'}} bgColor={'gray.200'} textColor={'black'}/>
+                  {errors.line !== undefined && <Text textColor={'red'}>{errors.line.message}</Text>}      
                 </Box>
                 <Box width={'100%'} mr={2} ml={2} mt={[2, 2, 0, 0]}>
                   <FormLabel textColor={'black'} htmlFor='instagram'>Instagram</FormLabel>
-                  <Input {...register('instagram')} type={'text'} name='instagram' placeholder='agusagus' _placeholder={{color: 'darkgray'}} bgColor={'gray.200'} textColor={'black'}/>
+                  <Input {...register('instagram', {required: "instagram harap diisi"})} type={'text'} name='instagram' placeholder='agusagus' _placeholder={{color: 'darkgray'}} bgColor={'gray.200'} textColor={'black'}/>
+                  {errors.instagram !== undefined && <Text textColor={'red'}>{errors.instagram.message}</Text>}
                 </Box>
               </Flex>
               <Flex justifyContent={'space-between'} mt={2} flexDirection={['column', 'column', 'row', 'row']}>
                 <Box width={'100%'} mr={2} ml={2}>
                   <FormLabel textColor={'black'} htmlFor='transkrip_nilai'>Screen shoot Transkrip Nilai</FormLabel>
-                  <Input {...register('transkrip_nilai')} type={'file'} pt={1} name='transkrip_nilai' _placeholder={{color: 'darkgray'}} bgColor={'gray.200'} textColor={'black'}/>
+                  <Input {...register('transkrip_nilai', {required: "transkrip nilai harap diupload"})} type={'file'} pt={1} name='transkrip_nilai' _placeholder={{color: 'darkgray'}} bgColor={'gray.200'} textColor={'black'}/>
+                  {errors.transkrip_nilai !== undefined && <Text textColor={'red'}>{errors.transkrip_nilai.message}</Text>}
                 </Box>
               </Flex>
               <Flex justifyContent={'space-between'} mt={2} flexDirection={['column', 'column', 'row', 'row']}>
@@ -279,7 +300,7 @@ export default function Home() {
               </Flex>
               <Flex justifyContent={'space-between'} mt={2} flexDirection={['column', 'column', 'row', 'row']}>
                 <Box width={'100%'} mr={2} ml={2}>
-                  <FormLabel textColor={'black'} htmlFor='soal3'>pertanyaan3</FormLabel>
+                  <FormLabel textColor={'black'} htmlFor='soal3'>Jelaskan kombinasi frontend dan backend menurut pemahaman kamu!</FormLabel>
                   <Textarea {...register('soal3')} type={'text'} name='soal3' _placeholder={{color: 'darkgray'}} bgColor={'gray.200'} textColor={'black'}/>
                 </Box>
               </Flex>
