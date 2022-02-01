@@ -52,12 +52,12 @@ export default function Home() {
       formData.append("portofolio", data.portofolio[0]) //sesuai kalau gk ada sama divisinya gk usah kasih
       
       const res = await axios.post('http://128.199.159.189/api/mhs/register', formData)
-
+    
       setToken(res.data.token)
 
       Swal.fire(
         'Pendaftaran Berhasil',
-        'You clicked the button!',
+        'Silahkan untuk menunggu pemberitahuan selanjutnya!',
         'success'
       )
 
@@ -65,15 +65,20 @@ export default function Home() {
     }catch(err){
       Swal.fire({
         icon: 'error',
-        title: 'Oops...',
-        text: `${err.response.data}`
+        title: `${err.response.data.message}`,
       })
-      setErrorApi(err.response.data)
+      setLoading(false)
+      setErrorApi(err.response.data.message)
+      console.log(err)
     }
   }
 
-  if(errors.name !== undefined){
-    console.log(errors.name.message)
+  const loadingTransition = {
+    y:{
+      duration: 0.4,
+      yoyo: Infinity,
+      ease: "easeOut"
+    }
   }
 
   return (
@@ -82,7 +87,7 @@ export default function Home() {
       width={'100%'}
       // bgGradient={'linear(to-tr, yellow.100, blue.300)'} 
       bgImage={['/phone.jpg', '/maxima2022Background.jpg', '/maxima2022Background.jpg', '/maxima2022Background.jpg']}
-      bgPosition={'center'}
+      bgPosition={['center', 'bottom', 'bottom']}
       bgRepeat={'no-repeat'}
       bgSize={'cover'}
       justifyContent={'center'} 
@@ -109,9 +114,11 @@ export default function Home() {
           p={6} direction={'column'} bgColor={'white'}
         >
           <Flex justifyContent={'center'} direction={'column'} alignItems={'center'} height={'80vh'}>
-            <motion.image
-              animate={{y: [0, 25, 0]}}
-              transition={{repeatDelay: 0.8, type:'spring', stiffness: 50, repeat: Infinity}}
+            <motion.span 
+              transition={loadingTransition} 
+              animate={{
+              y: ['10%', '-20%']
+            }}
             >
             <Image
               src='/Logo_MXM_2022.png'
@@ -119,7 +126,7 @@ export default function Home() {
               boxSize={'189px'}
               alt='Logo_MXM_2022'
             />
-            </motion.image>
+            </motion.span>
           </Flex>
         </Flex>
         : loading === false && token !== undefined ?
@@ -127,7 +134,6 @@ export default function Home() {
           borderRadius={'12px 12px 12px 12px'} 
           height={'80vh'} 
           width={['65%', '65%', '70%', '70%']}
-          overflow={'auto'} 
           sx={{
             '&::-webkit-scrollbar': {
               width: '16px',
@@ -139,7 +145,7 @@ export default function Home() {
               bgGradient: 'linear(to-tr, yellow.100, blue.300)',
             },
           }}
-          p={6} direction={'column'} bgColor={'white'}
+          p={6} direction={'column'} bgColor={'white'} justifyContent={'center'} align={'center'}
         >
         <Flex justifyContent={'center'} alignItems={'center'}>
           <Image
@@ -204,7 +210,7 @@ export default function Home() {
               </Flex>
               <Flex justifyContent={'space-between'} mt={2} flexDirection={['column', 'column', 'row', 'row']}>
                 <Box width={'100%'} mr={2} ml={2}>
-                  <FormLabel textColor={'black'} htmlFor='email'>Email</FormLabel>
+                  <FormLabel textColor={'black'} htmlFor='email'>Email Student</FormLabel>
                   <Input {...register('email', {required: "Email harap diisi"})} type={'email'} name='email' placeholder='agus.salim@student.umn.ac.id' _placeholder={{color: 'darkgray'}} bgColor={'gray.200'} textColor={'black'}/>
                   {errors.email !== undefined && <Text textColor={'red'}>{errors.email.message}</Text>}
                 </Box>
