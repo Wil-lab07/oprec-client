@@ -24,12 +24,12 @@ export default function Home() {
   const { register, handleSubmit, formState:{errors} } = useForm()
 
   const [loading, setLoading] = useState(false)
-  const [errorApi, setErrorApi] = useState(undefined)
   const [token, setToken] = useState(undefined)
 
-  const onSubmit = async (data)=>{
-    setLoading(true)
+  const onSubmit = async (data)=>{ 
+    setLoading(true) 
     try{
+      console.log(data)
       const formData = new FormData()
       formData.append("nim_mhs", data.nim_mhs)
       formData.append("name", data.name)
@@ -52,7 +52,7 @@ export default function Home() {
       formData.append("portofolio", data.portofolio[0]) //sesuai kalau gk ada sama divisinya gk usah kasih
       
       const res = await axios.post('http://128.199.159.189/api/mhs/register', formData)
-    
+
       setToken(res.data.token)
 
       Swal.fire(
@@ -65,11 +65,9 @@ export default function Home() {
     }catch(err){
       Swal.fire({
         icon: 'error',
-        title: `${err.response.data.message}`,
+        title: `${err.response.data.message}`
       })
       setLoading(false)
-      setErrorApi(err.response.data.message)
-      console.log(err)
     }
   }
 
@@ -86,8 +84,8 @@ export default function Home() {
       height={'100vh'}
       width={'100%'}
       // bgGradient={'linear(to-tr, yellow.100, blue.300)'} 
-      bgImage={['/phone.jpg', '/maxima2022Background.jpg', '/maxima2022Background.jpg', '/maxima2022Background.jpg']}
-      bgPosition={['center', 'bottom', 'bottom']}
+      bgImage={['/phone.jpg', '/landscape.jpg', '/landscape.jpg', '/landscape.jpg']}
+      bgPosition={['center', 'bottom', 'bottom', 'bottom']}
       bgRepeat={'no-repeat'}
       bgSize={'cover'}
       justifyContent={'center'} 
@@ -195,7 +193,7 @@ export default function Home() {
             <form display={'flex'} flexDirection={'column'} onSubmit={handleSubmit(onSubmit)}>
               <Flex justifyContent={'space-between'} mt={2} flexDirection={['column', 'column', 'row', 'row']}>
                 <Box width={'100%'} mr={2} ml={2}>
-                  <FormLabel textColor={'black'} htmlFor='nim_mhs'>NIM</FormLabel>
+                  <FormLabel textColor={'black'} htmlFor='nim_mhs'>NIM</FormLabel> 
                   <InputGroup>
                     <InputLeftAddon textColor={'white'} children='000000' bgColor={'gray.500'}/>
                     <Input {...register('nim_mhs', {required: "NIM harap diisi"})} type={'number'} name='nim_mhs' placeholder='32456' _placeholder={{color: 'darkgray'}} bgColor={'gray.200'} textColor={'black'}/>
@@ -331,3 +329,5 @@ export default function Home() {
     </Flex>
   )
 }
+
+
