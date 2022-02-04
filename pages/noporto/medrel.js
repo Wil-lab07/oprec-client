@@ -1,3 +1,7 @@
+/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable @next/next/link-passhref */
+/* eslint-disable react/no-children-prop */
+/* eslint-disable react-hooks/rules-of-hooks */
 import Head from 'next/head'
 import Link from 'next/link'
 import {

@@ -1,3 +1,7 @@
+/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable @next/next/link-passhref */
+/* eslint-disable react/no-children-prop */
+/* eslint-disable react-hooks/rules-of-hooks */
 import Head from 'next/head'
 import Link from 'next/link'
 import {
@@ -47,8 +51,7 @@ const text = () => {
       formData.append("transkrip_nilai", data.transkrip_nilai[0])
       formData.append("soal1", data.soal1)
       formData.append("soal2", data.soal2)
-      // formData.append("soal3", data.soal3)
-      formData.append("portofolio", data.portofolio[0]) //sesuai kalau gk ada sama divisinya gk usah kasih
+      formData.append("portofolio", data.portofolio[0]) 
       
       const res = await axios.post('http://128.199.159.189/api/mhs/register', formData)
     
@@ -304,7 +307,7 @@ const text = () => {
               </Flex>
               <Flex justifyContent={'space-between'} mt={2} flexDirection={['column', 'column', 'row', 'row']}>
                 <Box width={'100%'} mr={2} ml={2}>
-                  <FormLabel textColor={'black'} htmlFor='soal1'>Menurut kamu apa arti "Neverland"?</FormLabel>
+                  <FormLabel textColor={'black'} htmlFor='soal1'>Menurut kamu apa arti Neverland?</FormLabel>
                   <Textarea {...register('soal1')} type={'text'} name='soal1' _placeholder={{color: 'darkgray'}} bgColor={'gray.200'} textColor={'black'}/>
                 </Box>
               </Flex>
