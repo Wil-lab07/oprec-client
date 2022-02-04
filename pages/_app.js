@@ -1,14 +1,17 @@
 import '../styles/globals.css'
-import {ChakraProvider} from '@chakra-ui/react'
-import {AnimatePresence} from 'framer-motion'
-
+import { ChakraProvider } from '@chakra-ui/react'
+import 'tailwindcss/tailwind.css'
+import { AnimatePresence } from 'framer-motion'
+import Layout from '../comps/layout'
 function MyApp({ Component, pageProps }) {
   return (
-    <ChakraProvider>
-      <AnimatePresence>
+  <ChakraProvider>
+    <AnimatePresence>
+      <Layout>
         <Component {...pageProps} />
-      </AnimatePresence>  
-    </ChakraProvider>
+      </Layout>
+    </AnimatePresence>
+  </ChakraProvider>
   )
 }
 
